@@ -17,7 +17,7 @@ size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *user
 
   mem->memory = realloc(mem->memory, mem->size + realsize + 1);
   if(mem->memory == NULL) {
-    printf("Not enough memory (realloc returned NULL)\n");
+    printf("Memory error (realloc)\n");
     return 0;
   }
  
@@ -41,7 +41,7 @@ const char* DownloadString(char *url) {
   curl_easy_setopt(curl_handle, CURLOPT_URL, url);
   curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, WriteMemoryCallback); //send data to the callback function
   curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void *)&chunk); //pass struct to the callback function
-  curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+  curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "whereami");
  
   res = curl_easy_perform(curl_handle); //Download
  
