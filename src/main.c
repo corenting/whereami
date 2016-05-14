@@ -34,6 +34,13 @@ static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
   return -1;
 }
 
+static void removeNewLine(char * string) {
+  size_t length = strlen(string);
+  if (string[length-1] == '\n') {
+    string[length-1] = '\0';
+  }
+}
+
 struct Position {
    char *city;
    char *region;
@@ -42,7 +49,19 @@ struct Position {
    char *longitude;
 };
 
-int main(void) {
+int main(int argc, const char* argv[]) {
+  
+  //Help
+  if(argc > 1 && (!strncmp(argv[1], "-h",2) || !strncmp(argv[1], "--help",6))) {
+    printf("whereami - get your location using freegeoip.net\n\n"
+           "Usage :\n"
+           "-c or --city : print only the city\n"
+           "-r or --region : print only the region\n"
+           "-co or --country : print only the country\n"
+           "-p or --position : print only the position\n");
+    return 0;
+  }
+  
   //Get the string
   const char * webString = DownloadString("http://freegeoip.net/json/");
   
@@ -75,29 +94,53 @@ int main(void) {
   for (int i = 1; i < r; i++) {
     if (jsoneq(webString, &t[i], "city") == 0) {
       asprintf(&pos.city, "%.*s\n", t[i+1].end-t[i+1].start, webString + t[i+1].start);
+      removeNewLine(pos.city);
 			i++;
     }
     else if (jsoneq(webString, &t[i], "region_name") == 0) {
       asprintf(&pos.region, "%.*s\n", t[i+1].end-t[i+1].start, webString + t[i+1].start);
+      removeNewLine(pos.region);
 			i++;
     }
     else if (jsoneq(webString, &t[i], "country_name") == 0) {
       asprintf(&pos.country, "%.*s\n", t[i+1].end-t[i+1].start, webString + t[i+1].start);
+      removeNewLine(pos.country);
 			i++;
     }
     else if (jsoneq(webString, &t[i], "latitude") == 0) {
       asprintf(&pos.latitude, "%.*s\n", t[i+1].end-t[i+1].start, webString + t[i+1].start);
-			i++;
+	    removeNewLine(pos.latitude);
+      i++;
     }
     else if (jsoneq(webString, &t[i], "longitude") == 0) {
       asprintf(&pos.longitude, "%.*s\n", t[i+1].end-t[i+1].start, webString + t[i+1].start);
+      removeNewLine(pos.longitude);
 			i++;
     }
   }
   
-  printf("%s",pos.region);
-  
-  //TODO : free() things
+  //Display according to the argument provided
+  if(argc > 1) {
+    if(!strncmp(argv[1], "-co",3) || !strncmp(argv[1], "--country",9)) {
+      printf("%s\n",pos.country);
+    }
+    else if(!strncmp(argv[1], "-c",2) || !strncmp(argv[1], "--city",6)) {
+      printf("%s\n",pos.city);
+    }
+    else if(!strncmp(argv[1], "-p",2) || !strncmp(argv[1], "--position",10)) {
+      printf("%s,%s\n",pos.latitude,pos.longitude);
+    }
+    else if(!strncmp(argv[1], "-r",2) || !strncmp(argv[1], "--region",8)) {
+      printf("%s\n",pos.region);
+    }
+    else {
+      printf("Unknown option '%s'\n",argv[1]);
+    }
+  }
+  else {
+    printf("%s, %s, %s (%s,%s)\n",pos.city, pos.region, pos.country,pos.latitude,pos.longitude);
+  }
+
   if(pos.city) free(pos.city);
   if(pos.region) free(pos.region);
   if(pos.country) free(pos.country);

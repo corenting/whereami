@@ -1,4 +1,5 @@
 TARGET = whereami
+FOLDER = /usr/local/bin
 
 CC = gcc
 CFLAGS = -Wall -Wextra -O3
@@ -14,3 +15,7 @@ $(TARGET) : $(OBJS)
 .PHONY: clean
 clean:
 	rm -f ${OBJ} ${TARGET}
+	
+.PHONY: install
+install:
+	install $(TARGET) $(FOLDER)
