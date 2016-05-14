@@ -3,6 +3,9 @@
 whereami is a simple Rust console application to get your location using [freegeoip.net](http://freegeoip.net/). By default, it displays the city, region, country, latitude, and longitude.
 For basic usage, see ```whereami -h```.
 
+# Compilation and installation
+Compile with ```make```, and install in the folder specified in the makefile (```/usr/local/bin``` by default) with ```make install```.
+
 # Libraries used
 - [libcurl](https://github.com/curl/curl), by Daniel Stenberg (daniel@haxx.se), and many contributors, with the following license :
 ```
