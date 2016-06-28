@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "download.h"
 #include "jsmn.h"
-  
+
 static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
 	if (tok->type == JSMN_STRING && (int) strlen(s) == tok->end - tok->start &&
   strncmp(json + tok->start, s, tok->end - tok->start) == 0) {
@@ -50,7 +50,7 @@ struct Position {
 };
 
 int main(int argc, const char* argv[]) {
-  
+
   //Help
   if(argc > 1 && (!strncmp(argv[1], "-h",2) || !strncmp(argv[1], "--help",6))) {
     printf("whereami - get your location using freegeoip.net\n\n"
@@ -61,16 +61,16 @@ int main(int argc, const char* argv[]) {
            "-p or --position : print only the position\n");
     return 0;
   }
-  
+
   //Get the string
   const char * webString = DownloadString("http://freegeoip.net/json/");
-  
+
   //Check for errors
   if(!webString|| strlen(webString) == 0) {
     printf("freegeoip.net data error\n");
     return 1;
   }
-  
+
   //Parse JSON
   int r;
   jsmn_parser p;
@@ -81,16 +81,16 @@ int main(int argc, const char* argv[]) {
     printf("JSON parsing error (%d)\n", r);
     return 1;
   }
-  
+
   //Test top-level element is an object
   if (r < 1 || t[0].type != JSMN_OBJECT) {
     printf("JSON parsing error (object expected)\n");
     return 1;
   }
-  
+
   //Parse elements
   struct Position pos;
-  
+
   for (int i = 1; i < r; i++) {
     if (jsoneq(webString, &t[i], "city") == 0) {
       asprintf(&pos.city, "%.*s\n", t[i+1].end-t[i+1].start, webString + t[i+1].start);
@@ -118,7 +118,7 @@ int main(int argc, const char* argv[]) {
 			i++;
     }
   }
-  
+
   //Display according to the argument provided
   if(argc > 1) {
     if(!strncmp(argv[1], "-co",3) || !strncmp(argv[1], "--country",9)) {
