@@ -4,7 +4,7 @@ FOLDER = /usr/local/bin
 CC = gcc
 CFLAGS = -Wall -Wextra -O3
 LDFLAGS = 
-LIBS = -lcurl
+LIBS = -lcurl -lm
  
 SRC = $(shell find src -type f -iname '*.c')
 OBJS = $(foreach x, $(basename $(SRC)), $(x).o)
