@@ -46,7 +46,7 @@ int main(int argc, const char* argv[]) {
   }
 
   //Get the string
-  const char *webString = DownloadString("http://geoip.nekudo.com/api/json");
+  char *webString = DownloadString("http://geoip.nekudo.com/api/json");
 
   //Check for errors
   if(!webString|| strlen(webString) == 0) {
@@ -58,9 +58,13 @@ int main(int argc, const char* argv[]) {
   cJSON *json = cJSON_Parse(webString);
   cJSON *location = cJSON_GetObjectItem(json,"location");
 
-  //Parse elements
+  //Parse elements and check if we have a city
   struct Position pos;
-  asprintf(&pos.city,cJSON_GetObjectItem(json,"city")->valuestring);
+  char *city = cJSON_GetObjectItem(json,"city")->valuestring;
+  if (!city)
+    asprintf(&city, "Unknown city");
+  asprintf(&pos.city,city);
+  free(city);
   asprintf(&pos.country,cJSON_GetObjectItem(cJSON_GetObjectItem(json,"country"),"name")->valuestring);
   pos.latitude = cJSON_GetObjectItem(location,"latitude")->valuedouble;
   pos.longitude = cJSON_GetObjectItem(location,"longitude")->valuedouble;
@@ -87,6 +91,7 @@ int main(int argc, const char* argv[]) {
 
   if(pos.city) free(pos.city);
   if(pos.country) free(pos.country);
-
+  free(webString);
+  cJSON_Delete(json);
   return 0;
 }

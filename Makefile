@@ -2,20 +2,19 @@ TARGET = whereami
 FOLDER = /usr/local/bin
 
 CC = gcc
-CFLAGS = -Wall -Wextra -O3
-LDFLAGS = 
-LIBS = -lcurl -lm
- 
+CFLAGS = -pedantic -Wextra -Wall -Wextra -Werror -O0 -g
+LDFLAGS = -lcurl -lm
+
 SRC = $(shell find src -type f -iname '*.c')
 OBJS = $(foreach x, $(basename $(SRC)), $(x).o)
- 
+
 $(TARGET) : $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS) $(LIBS)
- 
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $(TARGET) $(OBJS)
+
 .PHONY: clean
 clean:
-	rm -f ${OBJ} ${TARGET}
-	
+	rm -f ${OBJS} ${TARGET}
+
 .PHONY: install
 install:
 	install $(TARGET) $(FOLDER)
