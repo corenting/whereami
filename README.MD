@@ -9,7 +9,9 @@ Compile with ```make```, and install in the folder specified in the makefile (``
 # Libraries used
 - [libcurl](https://github.com/curl/curl), by Daniel Stenberg (daniel@haxx.se), and many contributors, with the following license :
 ```
-Copyright (c) 1996 - 2016, Daniel Stenberg, daniel@haxx.se, and many contributors, see the THANKS file.
+COPYRIGHT AND PERMISSION NOTICE
+
+Copyright (c) 1996 - 2017, Daniel Stenberg, daniel@haxx.se, and many contributors, see the THANKS file.
 
 All rights reserved.
 
