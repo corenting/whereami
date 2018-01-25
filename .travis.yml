@@ -1,15 +1,13 @@
 dist: trusty
 sudo: required
 language:
-  - c
-compiler:
-  - gcc
+  - generic
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
       - gcc-7
+env: CC='gcc-7'
 script:
-  - export CC=/usr/bin/gcc-7
   - make
