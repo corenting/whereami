@@ -11,6 +11,5 @@ addons:
     packages:
       - gcc-7
 script:
-  - ln -s /usr/bin/gcc-7 /usr/local/bin/gcc
   - export CC=/usr/bin/gcc-7
   - make
