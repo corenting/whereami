@@ -1,5 +1,16 @@
-language: c
-script: make
+dist: trusty
+sudo: required
+language:
+  - c
 compiler:
-  - clang
   - gcc
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-7
+script:
+  - ln -s /usr/bin/gcc-7 /usr/local/bin/gcc
+  - export CC=/usr/bin/gcc-7
+  - make
