@@ -8,6 +8,7 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - gcc-7
+      - curl
 env: CC='gcc-7'
 script:
   - make

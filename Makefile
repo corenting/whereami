@@ -3,13 +3,13 @@ FOLDER = /usr/local/bin
 
 CC = gcc
 CFLAGS = -std=gnu11 -pedantic -Werror -Wextra -Wall -Wextra -O2
-LDFLAGS = -lcurl -lm
+LIBS = -lcurl -lm
 
 SRC = $(shell find src -type f -iname '*.c')
 OBJS = $(foreach x, $(basename $(SRC)), $(x).o)
 
 $(TARGET) : $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(TARGET) $(OBJS)
+	$(CC) $(CFLAGS) $(LIBS) -o $(TARGET) $(OBJS)
 
 .PHONY: clean
 clean:
