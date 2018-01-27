@@ -59,8 +59,14 @@ int main(int argc, const char* argv[]) {
 
   //Parse elements and check if we have a city
   struct Position pos;
-  asprintf(&pos.city, "%s", cJSON_GetObjectItem(json,"city")->valuestring);
-  asprintf(&pos.country, "%s", cJSON_GetObjectItem(json,"country")->valuestring);
+  int ret = asprintf(&pos.city,"%s",cJSON_GetObjectItem(json,"city")->valuestring);
+  if (ret == -1) {
+    return 1;
+  }
+  ret = asprintf(&pos.country,"%s",cJSON_GetObjectItem(json,"country")->valuestring);
+  if (ret == -1) {
+    return 1;
+  }
   pos.latitude = cJSON_GetObjectItem(json,"lat")->valuedouble;
   pos.longitude = cJSON_GetObjectItem(json,"lon")->valuedouble;
 
