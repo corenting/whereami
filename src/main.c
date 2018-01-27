@@ -37,7 +37,7 @@ int main(int argc, const char* argv[]) {
 
   //Help
   if(argc > 1 && (!strncmp(argv[1], "-h",2) || !strncmp(argv[1], "--help",6))) {
-    printf("whereami - get your location using geoip.nekudo.com\n\n"
+    printf("whereami - get your location using ip-api.com\n\n"
            "Usage :\n"
            "-c or --city : print only the city\n"
            "-co or --country : print only the country\n"
@@ -59,8 +59,8 @@ int main(int argc, const char* argv[]) {
 
   //Parse elements and check if we have a city
   struct Position pos;
-  asprintf(&pos.city,cJSON_GetObjectItem(json,"city")->valuestring);
-  asprintf(&pos.country,cJSON_GetObjectItem(json,"country")->valuestring);
+  asprintf(&pos.city, "%s", cJSON_GetObjectItem(json,"city")->valuestring);
+  asprintf(&pos.country, "%s", cJSON_GetObjectItem(json,"country")->valuestring);
   pos.latitude = cJSON_GetObjectItem(json,"lat")->valuedouble;
   pos.longitude = cJSON_GetObjectItem(json,"lon")->valuedouble;
 

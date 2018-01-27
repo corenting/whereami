@@ -2,7 +2,7 @@ TARGET = whereami
 FOLDER = /usr/local/bin
 
 CC = gcc
-CFLAGS = -std=gnu11 -pedantic -Wextra -Wall -Wextra -O2
+CFLAGS = -std=gnu11 -pedantic -Werror -Wextra -Wall -Wextra -O2
 LDFLAGS = -lcurl -lm
 
 SRC = $(shell find src -type f -iname '*.c')
