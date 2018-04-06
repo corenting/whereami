@@ -45,14 +45,14 @@ char* DownloadString(char *url) {
 
   res = curl_easy_perform(curl_handle); //Download
 
-  //Check for error
-  if(res != CURLE_OK) {
-    fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
-  }
-
   //Cleanup
   curl_easy_cleanup(curl_handle);
   curl_global_cleanup();
+  
+  //Check for error
+  if(res != CURLE_OK) {
+    return NULL;
+  }
 
   return chunk.memory;
 }

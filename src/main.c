@@ -49,13 +49,19 @@ int main(int argc, const char* argv[]) {
   char *webString = DownloadString("http://ip-api.com/json");
 
   //Check for errors
-  if(!webString|| strlen(webString) == 0) {
-    printf("ip-api.com data error\n");
+  if(webString == NULL || strlen(webString) == 0) {
+    fprintf(stderr, "Cannot download position informations\n");
     return 1;
   }
 
   //Parse JSON
   cJSON *json = cJSON_Parse(webString);
+  const char *errorPtr = cJSON_GetErrorPtr();
+  if (errorPtr != NULL)
+  {
+    fprintf(stderr, "Error while parsing JSON from API\n");
+    return 1;
+  }
 
   //Parse elements and check if we have a city
   struct Position pos;
@@ -89,6 +95,8 @@ int main(int argc, const char* argv[]) {
   else {
     printf("%s, %s (%lf,%lf)\n",pos.city, pos.country,pos.latitude,pos.longitude);
   }
+
+  // Free and return
   free(pos.city);
   free(pos.country);
   free(webString);
