@@ -1,14 +1,9 @@
 dist: trusty
-sudo: required
 language:
-  - generic
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-7
-      - curl
-env: CC='gcc-7'
+  - c
+compiler:
+  - gcc
 script:
-  - make
+  - mkdir build
+  - cd build
+  - cmake .. && make

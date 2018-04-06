@@ -82,7 +82,7 @@ CJSON_PUBLIC(char *) cJSON_GetStringValue(cJSON *item) {
 }
 
 /* This is a safeguard to prevent copy-pasters from using incompatible C and header files */
-#if (CJSON_VERSION_MAJOR != 1) || (CJSON_VERSION_MINOR != 7) || (CJSON_VERSION_PATCH != 1)
+#if (CJSON_VERSION_MAJOR != 1) || (CJSON_VERSION_MINOR != 7) || (CJSON_VERSION_PATCH != 5)
     #error cJSON.h and cJSON.c have different versions. Make sure that both have the same.
 #endif
 
@@ -1311,10 +1311,6 @@ static cJSON_bool print_value(const cJSON * const item, printbuffer * const outp
             size_t raw_length = 0;
             if (item->valuestring == NULL)
             {
-                if (!output_buffer->noalloc)
-                {
-                    output_buffer->hooks.deallocate(output_buffer->buffer);
-                }
                 return false;
             }
 
@@ -1899,9 +1895,28 @@ static void* cast_away_const(const void* string)
 
 static cJSON_bool add_item_to_object(cJSON * const object, const char * const string, cJSON * const item, const internal_hooks * const hooks, const cJSON_bool constant_key)
 {
+    char *new_key = NULL;
+    int new_type = cJSON_Invalid;
+
     if ((object == NULL) || (string == NULL) || (item == NULL))
     {
         return false;
+    }
+
+    if (constant_key)
+    {
+        new_key = (char*)cast_away_const(string);
+        new_type = item->type | cJSON_StringIsConst;
+    }
+    else
+    {
+        new_key = (char*)cJSON_strdup((const unsigned char*)string, hooks);
+        if (new_key == NULL)
+        {
+            return false;
+        }
+
+        new_type = item->type & ~cJSON_StringIsConst;
     }
 
     if (!(item->type & cJSON_StringIsConst) && (item->string != NULL))
@@ -1909,22 +1924,8 @@ static cJSON_bool add_item_to_object(cJSON * const object, const char * const st
         hooks->deallocate(item->string);
     }
 
-    if (constant_key)
-    {
-        item->string = (char*)cast_away_const(string);
-        item->type |= cJSON_StringIsConst;
-    }
-    else
-    {
-        char *key = (char*)cJSON_strdup((const unsigned char*)string, hooks);
-        if (key == NULL)
-        {
-            return false;
-        }
-
-        item->string = key;
-        item->type &= ~cJSON_StringIsConst;
-    }
+    item->string = new_key;
+    item->type = new_type;
 
     return add_item_to_array(object, item);
 }
