@@ -1,5 +1,5 @@
 /*
-whereami, a console application to get your location using ip-api.com
+whereami, a console application to get your location using ipapi.co
 Copyright (C) 2017  corenting
 
 This program is free software; you can redistribute it and/or modify
@@ -37,7 +37,7 @@ int main(int argc, const char* argv[]) {
 
   //Help
   if(argc > 1 && (!strncmp(argv[1], "-h",2) || !strncmp(argv[1], "--help",6))) {
-    printf("whereami - get your location using ip-api.com\n\n"
+    printf("whereami - get your location using ipapi.co\n\n"
            "Usage :\n"
            "-c or --city : print only the city\n"
            "-co or --country : print only the country\n"
@@ -45,8 +45,8 @@ int main(int argc, const char* argv[]) {
     return 0;
   }
 
-  //Get the string
-  char *webString = DownloadString("http://ip-api.com/json");
+  // Try to get from ipapi.co
+  char *webString = DownloadString("https://ipapi.co/json");
 
   //Check for errors
   if(webString == NULL || strlen(webString) == 0) {
@@ -69,12 +69,12 @@ int main(int argc, const char* argv[]) {
   if (ret == -1) {
     return 1;
   }
-  ret = asprintf(&pos.country,"%s",cJSON_GetObjectItem(json,"country")->valuestring);
+  ret = asprintf(&pos.country,"%s",cJSON_GetObjectItem(json,"country_name")->valuestring);
   if (ret == -1) {
     return 1;
   }
-  pos.latitude = cJSON_GetObjectItem(json,"lat")->valuedouble;
-  pos.longitude = cJSON_GetObjectItem(json,"lon")->valuedouble;
+  pos.latitude = cJSON_GetObjectItem(json,"latitude")->valuedouble;
+  pos.longitude = cJSON_GetObjectItem(json,"longitude")->valuedouble;
 
 
   //Display according to the argument provided

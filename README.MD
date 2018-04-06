@@ -1,6 +1,6 @@
 # whereami [![Build Status](https://travis-ci.org/corenting/whereami.svg?branch=master)](https://travis-ci.org/corenting/whereami)
 
-whereami is a simple console application to get your location using [ip-api.com](http://ip-api.com/). By default, it displays the city, country, latitude, and longitude.
+whereami is a simple console application to get your location using [ipapi.co](https://ipapi.co/). By default, it displays the city, country, latitude, and longitude.
 For basic usage, see ```whereami -h```.
 
 # Compilation and installation
