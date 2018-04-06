@@ -1,10 +1,17 @@
-# whereami
+# whereami [![Build Status](https://travis-ci.org/corenting/whereami.svg?branch=master)](https://travis-ci.org/corenting/whereami)
 
 whereami is a simple console application to get your location using [ip-api.com](http://ip-api.com/). By default, it displays the city, country, latitude, and longitude.
 For basic usage, see ```whereami -h```.
 
 # Compilation and installation
-Compile with ```make```, and install in the folder specified in the makefile (```/usr/local/bin``` by default) with ```make install```.
+
+The project use cmake, you can compile it with the following commands :
+```
+mkdir build # create a build directory
+cd build
+cmake ..
+make        # you can also use make install to install the binary on your system
+```
 
 # Libraries used
 - [libcurl](https://github.com/curl/curl), by Daniel Stenberg (daniel@haxx.se), and many contributors, with the following license :
