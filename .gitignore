@@ -1,4 +1,5 @@
 *.o
 whereami
-.vscode
+.vscode/
+.idea/
 build/
