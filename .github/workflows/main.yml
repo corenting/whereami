@@ -8,15 +8,20 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest]
+        compiler: [/usr/bin/gcc, /usr/bin/clang]
     steps:
     - uses: actions/checkout@v1
     - name: Create build directory
       run: mkdir build
     - name: CMake
+      env:
+        CC: ${{ matrix.compiler }}
       run: |
         cd build
         cmake ..
     - name: Make
+      env:
+        CC: ${{ matrix.compiler }}
       run: |
         cd build
         make
