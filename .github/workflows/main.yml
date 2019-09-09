@@ -11,10 +11,12 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Create build directory
-      run: |
-        mkdir build
-        cd build
+      run: mkdir build
     - name: CMake
-      run: cmake ..
+      run: |
+        cd build
+        cmake ..
     - name: Make
-      run: make 
+      run: |
+        cd build
+        make
