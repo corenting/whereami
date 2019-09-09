@@ -15,13 +15,11 @@ jobs:
       run: mkdir build
     - name: CMake
       env:
-        CC: ${{ matrix.compiler }}
+        CMAKE_C_COMPILER: ${{ matrix.compiler }}
       run: |
         cd build
         cmake ..
     - name: Make
-      env:
-        CC: ${{ matrix.compiler }}
       run: |
         cd build
         make
