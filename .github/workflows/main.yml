@@ -1,0 +1,20 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Create build directory
+      run: |
+        mkdir build
+        cd build
+    - name: CMake
+      run: cmake ..
+    - name: Make
+      run: make 
