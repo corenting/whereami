@@ -1,5 +1,2 @@
-*.o
 whereami
 .vscode/
-.idea/
-build/

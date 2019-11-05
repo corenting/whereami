@@ -5,13 +5,7 @@ For basic usage, see ```whereami -h```.
 
 # Compilation and installation
 
-The project use cmake, you can compile it with the following commands :
-```
-mkdir build # create a build directory
-cd build
-cmake ..
-make        # you can also use make install to install the binary on your system
-```
+You need to install [nim](https://nim-lang.org/install.html) then you can do a make build-release at the root of the repository to generate the `whereami` binary.
 
 # Libraries used
 - [libcurl](https://github.com/curl/curl), by Daniel Stenberg (daniel@haxx.se), and many contributors, with the following license :
