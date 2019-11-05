@@ -11,5 +11,8 @@ jobs:
       
     steps:
     - uses: actions/checkout@v1
-    - name: make build-release
+    - name: Configure
+      run: |
+        sudo apt-get install make -y
+    - name: Release build
       run: make build-release
