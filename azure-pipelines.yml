@@ -1,0 +1,11 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: curl https://nim-lang.org/choosenim/init.sh -sSf | sh
+  displayName: Install nim toolchain
+- script: make build-release
+  displayName: Compile (release)
