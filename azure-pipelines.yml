@@ -5,7 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: curl https://nim-lang.org/choosenim/init.sh -sSf -o init.sh && sh init.sh -y
+- script: |
+    curl https://nim-lang.org/choosenim/init.sh -sSf -o init.sh
+    sh init.sh -y
+    echo ##vso[task.prependpath]/home/vsts/.nimble/bin:$PATH
   displayName: Install nim toolchain
 - script: make build-release
   displayName: Compile (release)
