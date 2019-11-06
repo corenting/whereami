@@ -12,3 +12,9 @@ steps:
   displayName: Install nim toolchain
 - bash: make build-release
   displayName: Compile (release)
+- bash: cp whereami $(Build.ArtifactStagingDirectory)/whereami
+  displayName: Move build artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: binaries
