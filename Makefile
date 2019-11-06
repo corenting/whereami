@@ -16,4 +16,4 @@ run:
 .SILENT: build-release
 .PHONY: build-release
 build-release:
-	nimble -d:release --opt:size --passL:-s build
+	nimble -y -d:release --opt:size --passL:-s build
