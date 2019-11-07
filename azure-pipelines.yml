@@ -10,9 +10,15 @@ steps:
     sh init.sh -y
     echo "##vso[task.prependpath]/home/vsts/.nimble/bin:$PATH"
   displayName: Install nim toolchain
-- bash: make build-release
-  displayName: Compile (release)
-- bash: cp whereami $(Build.ArtifactStagingDirectory)/whereami
+- bash: sudo apt install -y mingw-w64
+  displayName: Install MinGW
+- bash: make build-release-linux
+  displayName: Build release build (Linux)
+- bash: make build-release-win
+  displayName: Build release build (Windows)
+- bash: |
+    cp whereami_linux $(Build.ArtifactStagingDirectory)/whereami
+    cp whereami_win $(Build.ArtifactStagingDirectory)/whereami.exe
   displayName: Move build artifacts
 - task: PublishBuildArtifacts@1
   inputs:

@@ -2,15 +2,14 @@ let doc = """
 whereami - get your location using ipapi.co
 
 Usage:
-  whereami [-c | --city] [-co | --country] [-p | --position]
+  whereami [--filter=<field_name>]
   whereami (-h | --help)
-  whereami --version
+  whereami (-v | --version)
 
 Options:
-  -h --help      Show this screen.
-  -c --city      Show only the city
-  -co --country  Show only the country
-  -p --position  Show only the position
+  --filter=<field_name>   Show only the specified information (city, country or position)
+  -h --help               Show this screen.
+  -v --version            Show application version
 """
 
 import constants
@@ -26,34 +25,46 @@ type
     latitude*: float
     longitude*: float
 
+proc getCurrentPosition(): Position =
+  let client = newHttpClient()
+  let apiResponse = client.get(constants.apiEndpoint)
 
-let args = docopt(doc, version = "whereami 3.0")
+  if apiResponse.code() != HttpCode(200):
+    raise newException(IOError, "Request error")
 
-let client = newHttpClient()
-let apiResponse = client.get(constants.apiEndpoint)
+  try:
+    var currentPosition = Position()
+    let jsonResponse = parseJson(apiResponse.body)
+    currentPosition = to(jsonResponse, Position)
+    return currentPosition
+  except:
+    raise newException(ValueError, "Error while parsing JSON from API")
 
-if apiResponse.code() != HttpCode(200):
-  stderr.writeLine("Cannot download position informations")
-  quit(1)
+proc getPositionString(pos: Position, args: Table[string, Value]): string =
+  let filter = $args["--filter"]
+  if filter == "city":
+    return pos.city
+  elif filter == "country":
+    return pos.country_name
+  elif filter == "position":
+    return $pos.latitude & "," & $pos.longitude
+  else:
+    return $pos.city & ", " & $pos.country_name & " (" & $pos.latitude & "," & $pos.longitude & ")"
 
-var currentPosition = Position()
-try:
-  let jsonResponse = parseJson(apiResponse.body)
-  currentPosition = to(jsonResponse, Position)
-except:
-  stderr.writeLine("Error while parsing JSON from API")
-  quit(1)
+proc main() =
+  let args = docopt(doc, version = "whereami 3.0")
 
-if args["--city"]:
-  echo(currentPosition.city)
-elif args["--country"]:
-  echo(currentPosition.country_name)
-elif args["--position"]:
-  echo($currentPosition.latitude & "," & $currentPosition.longitude)
-else:
-  echo(
-    $currentPosition.city & ", " &
-    $currentPosition.country_name & " (" &
-    $currentPosition.latitude & "," &
-    $currentPosition.longitude & ")"
-  )
+  var currentPos = Position()
+  try:
+    currentPos = getCurrentPosition()
+  except IOError:
+    stderr.writeLine("Cannot download position informations")
+    quit(1)
+  except ValueError:
+    stderr.writeLine("Error while parsing JSON from API")
+    quit(1)
+
+  echo getPositionString(currentPos, args)
+
+when isMainModule:
+  main()
