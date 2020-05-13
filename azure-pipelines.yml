@@ -21,6 +21,12 @@ steps:
     cp whereami_win $(Build.ArtifactStagingDirectory)/whereami.exe
   displayName: Move build artifacts
 - task: PublishBuildArtifacts@1
+  displayName: Publish build artifact (Linux)
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: binaries
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)/whereami'
+    artifactName: whereami_linux
+- task: PublishBuildArtifacts@1
+  displayName: Publish build artifact (Windows)
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)/whereami.exe'
+    artifactName: whereami.exe
