@@ -49,7 +49,8 @@ proc getPositionString(pos: Position, args: Table[string, Value]): string =
   elif filter == "position":
     return $pos.latitude & "," & $pos.longitude
   else:
-    return $pos.city & ", " & $pos.country_name & " (" & $pos.latitude & "," & $pos.longitude & ")"
+    return $pos.city & ", " & $pos.country_name & " (" & $pos.latitude & "," &
+        $pos.longitude & ")"
 
 proc main() =
   let args = docopt(doc, version = "whereami 3.0")

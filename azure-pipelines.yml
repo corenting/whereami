@@ -12,9 +12,9 @@ steps:
   displayName: Install nim toolchain
 - bash: sudo apt install -y mingw-w64
   displayName: Install MinGW
-- bash: make build-release-linux
+- bash: make build-linux
   displayName: Build release build (Linux)
-- bash: make build-release-win
+- bash: make build-win
   displayName: Build release build (Windows)
 - bash: |
     cp whereami_linux $(Build.ArtifactStagingDirectory)/whereami

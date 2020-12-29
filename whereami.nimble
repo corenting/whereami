@@ -11,4 +11,4 @@ bin           = @["whereami"]
 
 # Dependencies
 
-requires "nim >= 1.2.0", "docopt >= 0.6.8"
+requires "nim >= 1.4.0", "docopt >= 0.6.8"
