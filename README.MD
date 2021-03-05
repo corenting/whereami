@@ -7,4 +7,4 @@ For basic usage, see ```whereami -h```.
 
 # Compilation and installation
 
-You need to install [nim](https://nim-lang.org/install.html) then you can do a make build-release at the root of the repository to generate the `whereami` binary.
+You need to install [nim](https://nim-lang.org/install.html) then you can do a make build a the root of the repository to generate the `whereami` binary for Windows and Linux
