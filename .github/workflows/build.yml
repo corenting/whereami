@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
+      fail-fast: false 
 
     steps:
     - name: Checkout
@@ -28,8 +29,8 @@ jobs:
       uses: jiro4989/setup-nim-action@v1
       with:
         nim-version: 'stable'
-    - name: Build
-      run: make build
+    - name: Build release
+      run: make release
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
