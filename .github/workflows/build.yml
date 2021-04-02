@@ -42,7 +42,9 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: whereami-${{ matrix.os }}
-        path: whereami
+        path: |
+          whereami
+          whereami.exe
 
 
 
