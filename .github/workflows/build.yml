@@ -1,4 +1,4 @@
-name: Build
+name: build
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
-      fail-fast: false 
+      fail-fast: false
 
     steps:
     - name: Checkout
@@ -43,11 +43,11 @@ jobs:
       with:
         name: whereami-${{ matrix.os }}
         path: whereami
-      
-      
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
+
